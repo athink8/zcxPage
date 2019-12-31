@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>index</title>
+		<script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.12.4/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css" />
+		<script src="https://www.layuicdn.com/layui/layui.js"></script>
+		<script type="text/javascript" src="canvas_bg.js"></script>
+		<script>
+			$(function() {
+				//开启弹框
+				var i=1;
+				var j=1;
+			function opendiv(div,area,closeBtn,btn){
+				layui.use('layer', function(){
+					var layer = layui.layer;
+					 layer.open({
+					  type: 1
+					  ,title: false //不显示标题栏
+					  ,closeBtn: false
+					  ,area: area
+					  ,btn: btn
+					  ,btnAlign: 'c'
+					  ,moveType: 1 //拖拽模式，0或者1
+					  ,content: div
+					  ,closeBtn:closeBtn
+					   ,yes: function(index, layero){
+						   if(j==6){
+						   	return;  
+						   }
+						   layer.closeAll();
+						   var mydiv='<div style=\"text-align: center;\"><img height=\"300px\" src=\"img/'+i+'.jpg\" style=\"border: 10px solid rgba(255,255,255,0.7);object-fit: cover;\"/></div>';
+					       i++;j++;
+						   if(i==5){
+							   i=1;
+						   }
+						   if(j==6){
+							   mydiv='<div class=\"newYear\" style=\"background-color: rgba(255,204,204,0.3);font-size: 32px;color: #0FCECE;text-align: center;padding: 3%;\">'
+								+'<p>我爱你</p><p> 2020请多多指教！</p><br>'
+								+'</div>';
+							    opendiv(mydiv,['400px', '200px'],"1")
+								return
+						   }
+						   opendiv(mydiv,['470px', '400px'],false,['继续爱吧', '算了吧'])
+					    }
+					,btn2: function(index, layero){
+						layer.msg('重新给你次选择？', {
+						  icon: 6,
+						  time: 1000 //2秒关闭（如果不配置，默认是3秒）
+						}, function(){
+						  opendiv('<div class=\"newYear\" style=\"background-color: rgba(213,213,213,0.3);font-size: 32px;color: #0FCECE;text-align: center;padding: 2%;\">'
+						  							+'<p>一周年快乐，元旦快乐。2020年愿我们一起努力，让生活越来越好，完成我们的第一次旅行。</p>'
+						  						+'</div>',['440px', '250px'],false,['继续爱吧', '算了吧'])
+						});   
+					}
+					});
+				})
+			}
+				
+				 opendiv('<div class=\"newYear\" style=\"background-color: rgba(213,213,213,0.3);font-size: 32px;color: #0FCECE;text-align: center;padding: 2%;\">'
+							+'<p>一周年快乐，元旦快乐。2020年愿我们一起努力，让生活越来越好，完成我们的第一次旅行。</p>'
+						+'</div>',['400px', '220px'],false,['继续爱吧', '算了吧'])
+
+				 
+				var setInterval1=setInterval(function() {
+					let nTime = new Date();
+					dateDiff(nTime, "2019/1/1 12:00:00");
+					// console.log(formartDate(nTime));
+					// console.log("时间差：" + dTime);
+				}, 1000)
+
+				function dateDiff(nTime, sTime) {
+					if (sTime == null || sTime == "") {
+						sTime = "2019/1/1 12:00:00";
+					}
+					let day1 = new Date(sTime).getTime();
+					let iDays = (nTime.getTime() - day1) / (1000 * 60 * 60 * 24); //天数
+					let iHours = (nTime.getTime() - day1) / (1000 * 60 * 60); //小时数
+					let iMinutes = (nTime.getTime() - day1) / (1000 * 60); //分钟数
+					$("#sTime").html("开始时间: " + "2019-01-01 12:00:00");
+					$("#nTime").html("当前时间: " + formartDate(nTime));
+					$("#dDays").html("相爱天数: " + iDays.toFixed(13) + "天");
+					$("#dHour").html("相爱小时: " + iHours.toFixed(10) + "小时");
+					$("#dMinutes").html("相爱分钟: " + iMinutes.toFixed(8) + "分钟");
+					// return iHours
+				};
+
+				/*格式化时间  */
+				function formartDate(mTime) {
+					var mYear = mTime.getFullYear();
+					var mMonth = mTime.getMonth() + 1;
+					var mDate = mTime.getDate();
+					var mHours = mTime.getHours();
+					var mMinutes = mTime.getMinutes();
+					var mSeconds = mTime.getSeconds();
+					if (mMonth < 10) {
+						mMonth = "0" + mMonth
+					}
+					if (mDate < 10) {
+						mDate = "0" + mDate
+					}
+					if (mHours < 10) {
+						mHours = "0" + mHours
+					}
+					if (mMinutes < 10) {
+						mMinutes = "0" + mMinutes
+					}
+					if (mSeconds < 10) {
+						mSeconds = "0" + mSeconds
+					}
+					return mYear + "-" + mMonth + "-" + mDate + "  " + mHours + ":" + mMinutes + ":" + mSeconds;
+				}
+
+				/* 音乐点击 */
+				$(".musicBtn").on("click", function() {
+					if ($(".audio1").get(0).paused) {
+						$(".audio1").get(0).play();
+						$(".musicBtn i").addClass("layui-anim-loop")
+					} else {
+						$(".audio1").get(0).pause();
+						$(".musicBtn i").removeClass("layui-anim-loop")
+					}
+
+				})
+				
+			 })
+		</script>
+		<style>
+			* {
+				cursor: pointer;
+			}
+
+			body {
+				background-color: whitesmoke;
+			}
+
+			#div1 {
+				text-align: center;
+				position: relative;
+				top: 55px;
+			}
+
+			.loveName {
+				color: red;
+				font-weight: bold;
+				font-size: 55px;
+				height: 120px;
+			}
+
+			.lTime {
+				/* width: 35%; */
+				margin: 0 auto;
+				text-align: center;
+				font-size: 30px;
+				color: rgba(255,51,204,0.9);
+			}
+
+			#author {
+				position: absolute;
+				left: 75%;
+				top: 75%;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="c" style="position: absolute;z-index: -1;text-align: center;top: -20px;left: -20px;"></canvas>
+		<div id="div1">
+			<div class="loveName">大傻辉和小机灵❤❤</div>
+			<div id="loveTime" class="loveTime">
+				<div id="sTime" class="lTime"></div><br />
+				<div id="nTime" class="lTime"></div><br />
+				<div id="dDays" class="lTime"></div><br />
+				<div id="dHour" class="lTime"></div><br />
+				<div id="dMinutes" class="lTime"></div><br />
+			</div>
+		</div>
+		<button class="musicBtn  ">
+			<i class="layui-icon layui-icon-headset layui-anim layui-anim-rotate layui-anim-loop" style="font-size: 28px;position: fixed;left: 51px;top: 100px;"></i>
+		</button>
+		<audio autoplay="autoplay" loop class="audio1">
+			<source src="music/pns.mp3" type="audio/mpeg">
+		</audio>
+		<footer id="author">
+			<p>@zcx</p>
+			<p>今天也要元气满满哦</p>
+		</footer>
+	</body>
+</html>
